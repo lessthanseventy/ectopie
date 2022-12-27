@@ -1,4 +1,4 @@
-defmodule EctoprintWeb.ConnCase do
+defmodule EctoprintWeb.LiveViewCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,28 +11,38 @@ defmodule EctoprintWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use EctoprintWeb.ConnCase, async: true`, although
+  by setting `use CoaOpalWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL.Sandbox
+  alias Phoenix.ConnTest
+  alias Ectoprint.Repo
+
   using do
     quote do
+      # Import conveniences for testing with connections
+      alias EctoprintWeb.Router.Helpers, as: Routes
+
+      import EctoprintWeb.LiveViewCase
+      import Phoenix.ConnTest
+      import Phoenix.LiveViewTest
+      import Plug.Conn
+
       # The default endpoint for testing
       @endpoint EctoprintWeb.Endpoint
-
-      use EctoprintWeb, :verified_routes
-
-      # Import conveniences for testing with connections
-      import Plug.Conn
-      import Phoenix.ConnTest
-      import EctoprintWeb.ConnCase
     end
   end
 
   setup tags do
-    Ectoprint.DataCase.setup_sandbox(tags)
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    :ok = Sandbox.checkout(Repo)
+
+    unless tags[:async] do
+      Sandbox.mode(Repo, {:shared, self()})
+    end
+
+    {:ok, conn: ConnTest.build_conn()}
   end
 end
