@@ -3,7 +3,7 @@ defmodule Ectoprint.MixProject do
 
   def project do
     [
-      app: :Ectoprint,
+      app: :ectoprint,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -38,7 +38,6 @@ defmodule Ectoprint.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:paginator, "~> 1.2.0"},
       {:petal_components, "~> 0.19.0"},
       {:phoenix, "~> 1.7.0-rc.0", override: true},
       {:phoenix_ecto, "~> 4.4"},
@@ -48,6 +47,7 @@ defmodule Ectoprint.MixProject do
       {:phoenix_live_view, "~> 0.18.3"},
       {:plug_cowboy, "~> 2.5"},
       {:postgrex, ">= 0.0.0"},
+      {:scrivener_ecto, "~> 2.0"},
       {:swoosh, "~> 1.3"},
       {:tailwind, "~> 0.1.8", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 0.6"},

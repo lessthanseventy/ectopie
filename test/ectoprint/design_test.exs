@@ -12,7 +12,8 @@ defmodule Ectoprint.DesignTest do
 
     test "list_design_cards/0 returns all design_cards" do
       card = card_fixture()
-      assert Design.list_design_cards() == [card]
+      {cards, metadata} = Design.list_design_cards()
+      assert cards == [card]
     end
 
     test "get_card!/1 returns the card with given id" do
@@ -21,7 +22,12 @@ defmodule Ectoprint.DesignTest do
     end
 
     test "create_card/1 with valid data creates a card" do
-      valid_attrs = %{category: "some category", description: "some description", heading: "some heading", img_src: "some img_src"}
+      valid_attrs = %{
+        category: "some category",
+        description: "some description",
+        heading: "some heading",
+        img_src: "some img_src"
+      }
 
       assert {:ok, %Card{} = card} = Design.create_card(valid_attrs)
       assert card.category == "some category"
@@ -36,7 +42,13 @@ defmodule Ectoprint.DesignTest do
 
     test "update_card/2 with valid data updates the card" do
       card = card_fixture()
-      update_attrs = %{category: "some updated category", description: "some updated description", heading: "some updated heading", img_src: "some updated img_src"}
+
+      update_attrs = %{
+        category: "some updated category",
+        description: "some updated description",
+        heading: "some updated heading",
+        img_src: "some updated img_src"
+      }
 
       assert {:ok, %Card{} = card} = Design.update_card(card, update_attrs)
       assert card.category == "some updated category"

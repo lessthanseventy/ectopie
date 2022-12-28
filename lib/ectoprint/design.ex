@@ -22,27 +22,9 @@ defmodule Ectoprint.Design do
       order_by: [asc: c.inserted_at, asc: c.id]
   end
 
-  def list_design_cards() do
-    %{entries: entries, metadata: metadata} =
-      list_design_cards_query()
-      |> Repo.paginate(
-        cursor_fields: [:inserted_at, :id],
-        limit: 8
-      )
-
-    {entries, metadata}
-  end
-
-  def list_design_cards(cursor_after) do
-    %{entries: entries, metadata: metadata} =
-      list_design_cards_query()
-      |> Repo.paginate(
-        cursor_fields: [:inserted_at, :id],
-        limit: 8,
-        after: cursor_after
-      )
-
-    {entries, metadata}
+  def list_design_cards(page) do
+    list_design_cards_query()
+    |> Repo.paginate(page: page)
   end
 
   @doc """

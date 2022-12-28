@@ -7,11 +7,11 @@
 # General application configuration
 import Config
 
-config :Ectoprint,
+config :ectoprint,
   ecto_repos: [Ectoprint.Repo]
 
 # Configures the endpoint
-config :Ectoprint, EctoprintWeb.Endpoint,
+config :ectoprint, EctoprintWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
     formats: [html: EctoprintWeb.ErrorHTML, json: EctoprintWeb.ErrorJSON],
@@ -27,7 +27,7 @@ config :Ectoprint, EctoprintWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :Ectoprint, Ectoprint.Mailer, adapter: Swoosh.Adapters.Local
+config :ectoprint, Ectoprint.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,

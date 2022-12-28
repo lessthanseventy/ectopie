@@ -9,7 +9,7 @@ defmodule EctoprintWeb.NavigationLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="flex flex-col h-screen px-2 py-8 mx-4 overflow-y-auto border-r">
+    <div class="flex flex-col h-screen px-2 py-8 mx-4 border-r">
       <h2 class="text-3xl font-semibold text-center text-blue-800">Logo</h2>
 
       <div class="flex flex-col justify-between mt-6">

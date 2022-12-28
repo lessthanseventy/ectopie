@@ -1,5 +1,5 @@
 defmodule EctoprintWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :Ectoprint
+  use Phoenix.Endpoint, otp_app: :ectoprint
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -19,7 +19,7 @@ defmodule EctoprintWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :Ectoprint,
+    from: :ectoprint,
     gzip: false,
     only: EctoprintWeb.static_paths()
 
@@ -29,7 +29,7 @@ defmodule EctoprintWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :Ectoprint
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :ectoprint
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
