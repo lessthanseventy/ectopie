@@ -10,7 +10,7 @@ defmodule Ectoprint.Factory do
       category: category,
       description: Faker.StarWars.En.quote(),
       heading: Faker.StarWars.En.planet(),
-      img_src: "https://cataas.com/cat/says/#{category}"
+      img_src: "https://cataas.com/cat/says/#{category}?t=small"
     }
     |> insert()
   end

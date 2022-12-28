@@ -19,10 +19,10 @@ defmodule EctoprintWeb.Router do
 
     live "/design", DesignLive, :design
     live "/design/:pagination_page", DesignLive, :pagination
-    live "/setup", NavigationLive, :setup
-    live "/control", NavigationLive, :control
-    live "/monitor", NavigationLive, :monitor
-    live "/review", NavigationLive, :review
+    live "/setup", SetupLive, :setup
+    live "/control", ControlLive, :control
+    live "/monitor", MonitorLive, :monitor
+    live "/review", ReviewLive, :review
   end
 
   scope "/playground", EctoprintWeb do

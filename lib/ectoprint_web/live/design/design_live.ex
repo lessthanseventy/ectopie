@@ -43,10 +43,11 @@ defmodule EctoprintWeb.DesignLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="flex flex-col">
+    <div class="flex flex-col justify-between h-full w-full">
       <div class="grid gap-5 mt-5 md:grid-cols-2 lg:grid-cols-4">
         <%= for card <- @cards do %>
           <.card>
+            <.card_media src={card.img_src} />
             <.card_content category={card.category} heading={card.heading}>
               <div class="mt-4 font-light text-gray-500 text-md">
                 <%= card.description %>
@@ -63,7 +64,7 @@ defmodule EctoprintWeb.DesignLive do
       <div class="w-1/2 self-center flex justify-center">
         <.pagination
           link_type="live_patch"
-          class="w-1/2 m-5"
+          class="w-1/2"
           path="/design/:page"
           current_page={@pagination_page}
           total_pages={10}
