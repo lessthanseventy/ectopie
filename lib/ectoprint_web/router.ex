@@ -17,8 +17,8 @@ defmodule EctoprintWeb.Router do
   scope "/", EctoprintWeb do
     pipe_through :browser
 
-    live "/", NavigationLive, :index
-    live "/design", NavigationLive, :design
+    live "/design", DesignLive, :design
+    live "/design/:pagination_page", DesignLive, :pagination
     live "/setup", NavigationLive, :setup
     live "/control", NavigationLive, :control
     live "/monitor", NavigationLive, :monitor
