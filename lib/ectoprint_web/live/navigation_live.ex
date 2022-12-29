@@ -17,7 +17,7 @@ defmodule EctoprintWeb.NavigationLive do
           <ul>
             <li>
               <.a
-                link_type="live_patch"
+                link_type="live_redirect"
                 to="/design"
                 class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200"
               >
@@ -28,7 +28,7 @@ defmodule EctoprintWeb.NavigationLive do
 
             <li>
               <.a
-                link_type="live_patch"
+                link_type="live_redirect"
                 to="/setup"
                 class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200"
               >
@@ -39,7 +39,7 @@ defmodule EctoprintWeb.NavigationLive do
 
             <li>
               <.a
-                link_type="live_patch"
+                link_type="live_redirect"
                 to="/control"
                 class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200"
               >
@@ -50,7 +50,7 @@ defmodule EctoprintWeb.NavigationLive do
 
             <li>
               <.a
-                link_type="live_patch"
+                link_type="live_redirect"
                 to="/monitor"
                 class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200"
               >
@@ -61,7 +61,7 @@ defmodule EctoprintWeb.NavigationLive do
 
             <li>
               <.a
-                link_type="live_patch"
+                link_type="live_redirect"
                 to="/review"
                 class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200"
               >
