@@ -37,6 +37,13 @@ defmodule EctoprintWeb.Router do
     live "/live/pagination/:page", PlaygroundLive, :pagination
   end
 
+  scope "/", PetalProWeb do
+    pipe_through [:browser]
+
+    live "/setup", SetupLive, :index
+    live "/setup/modal", SetupLive, :modal
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", EctoprintWeb do
   #   pipe_through :api
