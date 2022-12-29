@@ -7,15 +7,14 @@ defmodule EctoprintWeb.SetupLive do
   end
 
   @impl true
-  def handle_params(params, _uri, socket) do
+  def handle_params(_params, _uri, socket) do
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("close_modal", _, socket) do
-
     # Go back to the :index live action
-    {:noreply, push_patch(socket, to: "/")}
+    {:noreply, push_patch(socket, to: "/setup")}
   end
 
   @impl true
@@ -27,11 +26,15 @@ defmodule EctoprintWeb.SetupLive do
           Fancy Setup
         </span>
       </.h1>
-      <.button type="live_patch" to="/setup/modal" label="Upload Files"/>
+      <.button link_type="live_patch" label="Upload Files" to={~p"/setup/modal"} />
       <%= if @live_action == :modal do %>
-      <.modal title="Modal" close_modal_target={@myself}>
-        <.p>Content</.p>
-      </.modal>
+        <.modal max_width="md" title="Modal">
+          <.p>Content</.p>
+
+          <div class="flex justify-end">
+            <.button label="close" phx-click={hide_modal()} />
+          </div>
+        </.modal>
       <% end %>
       <.table class="mt-5">
         <.tr>
