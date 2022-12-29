@@ -15,34 +15,30 @@ defmodule EctoprintWeb.ControlLive do
           Fancy Control
         </span>
       </.h1>
-      <.card class="max-w-lg" variant="outline">
-        <.card_content category="Article" heading="Enhance your Phoenix development">
-          <.dropdown label="Dropdown">
-              <.dropdown_menu_item>
-                <HeroiconsV1.Outline.home class="w-5 h-5 text-gray-500" />
-                Button item with icon
-                </.dropdown_menu_item>
-                <.dropdown_menu_item link_type="button" label="button item" class="block" />
-                <.dropdown_menu_item link_type="a" to="/" label="Link" />
-                <.dropdown_menu_item link_type="a" to="/" label="Link with method" method={:put} />
-                <.dropdown_menu_item link_type="live_patch" to="/" label="Live Patch" />
-                <.dropdown_menu_item link_type="live_redirect" to="/" label="Live Redirect" />
-                <.dropdown_menu_item phx-click="some_phoenix_click_event" label="Phoenix click event" />
-               </.dropdown>
-              <.dropdown label="Dropdown">
-            <.dropdown_menu_item>
-              <HeroiconsV1.Outline.home class="w-5 h-5 text-gray-500" />
-              Button item with icon
-            </.dropdown_menu_item>
-            <.dropdown_menu_item link_type="button" label="button item" />
-            <.dropdown_menu_item link_type="a" to="/" label="Link" />
-            <.dropdown_menu_item link_type="a" to="/" label="Link with method" method={:put} />
-            <.dropdown_menu_item link_type="live_patch" to="/" label="Live Patch" />
-            <.dropdown_menu_item link_type="live_redirect" to="/" label="Live Redirect" />
-            <.dropdown_menu_item phx-click="some_phoenix_click_event" label="Phoenix click event" />
-          </.dropdown>
-        </.card_content>
-      </.card>
+      <.container class="mt-9" max_width="full">
+        <.dropdown label="Dropdown" js_lib="live_view_js">
+          <.dropdown_menu_item>
+            <HeroiconsV1.Outline.home class="w-5 h-5 text-gray-500" /> Button item with icon
+          </.dropdown_menu_item>
+          <.dropdown_menu_item link_type="button" label="button item" class="block" />
+          <.dropdown_menu_item link_type="a" to="/" label="Link" />
+          <.dropdown_menu_item link_type="a" to="/" label="Link with method" method={:put} />
+          <.dropdown_menu_item link_type="live_patch" to="/" label="Live Patch" />
+          <.dropdown_menu_item link_type="live_redirect" to="/" label="Live Redirect" />
+          <.dropdown_menu_item phx-click="some_phoenix_click_event" label="Phoenix click event" />
+        </.dropdown>
+        <.dropdown label="Dropdown" js_lib="live_view_js">
+          <.dropdown_menu_item>
+            <HeroiconsV1.Outline.home class="w-5 h-5 text-gray-500" /> Button item with icon
+          </.dropdown_menu_item>
+          <.dropdown_menu_item link_type="button" label="button item" />
+          <.dropdown_menu_item link_type="a" to="/" label="Link" />
+          <.dropdown_menu_item link_type="a" to="/" label="Link with method" method={:put} />
+          <.dropdown_menu_item link_type="live_patch" to="/" label="Live Patch" />
+          <.dropdown_menu_item link_type="live_redirect" to="/" label="Live Redirect" />
+          <.dropdown_menu_item phx-click="some_phoenix_click_event" label="Phoenix click event" />
+        </.dropdown>
+      </.container>
     </div>
     """
   end
