@@ -18,8 +18,8 @@ defmodule EctoprintWeb.LiveViewCase do
   use ExUnit.CaseTemplate
 
   alias Ecto.Adapters.SQL.Sandbox
-  alias Phoenix.ConnTest
   alias Ectoprint.Repo
+  alias Phoenix.ConnTest
 
   using do
     quote do
