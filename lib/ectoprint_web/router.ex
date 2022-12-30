@@ -10,6 +10,10 @@ defmodule EctoprintWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :playground do
+    plug :put_layout, {EctoprintWeb.Layout, :playground}
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -22,6 +26,8 @@ defmodule EctoprintWeb.Router do
     live "/design", DesignLive, :design
     live "/design/:pagination_page", DesignLive, :pagination
     live "/setup", SetupLive, :setup
+    live "/setup/upload_files", SetupLive, :upload_files
+    live "/setup/preview_and_save_files", SetupLive, :preview_and_save_files
     live "/control", ControlLive, :control
     live "/monitor", MonitorLive, :monitor
     live "/review", ReviewLive, :review
