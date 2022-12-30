@@ -1,0 +1,127 @@
+defmodule EctoprintWeb.SetupLive do
+  use EctoprintWeb, :live_view
+
+  alias Ectoprint.Setup.Files
+
+  @impl true
+  def mount(_params, _session, socket) do
+    {:ok, socket}
+  end
+
+  @impl true
+  def handle_params(params, _uri, socket) do
+    case socket.assigns.live_action do
+      :setup ->
+        {:noreply, assign(socket, modal: false, slide_over: false)}
+
+      :uload_files ->
+        changeset = Files.changeset(%Files{}, %{})
+
+        {:noreply,
+         socket
+         |> allow_upload(:files, accept: :any, max_entries: 5)
+         |> assign(changeset: changeset)}
+
+      :slide_over ->
+        {:noreply, assign(socket, slide_over: params["origin"])}
+
+      :pagination ->
+        {:noreply, assign(socket, pagination_page: String.to_integer(params["page"]))}
+    end
+  end
+
+  @impl true
+  def handle_event("close_modal", _, socket) do
+    # Go back to the :index live action
+    {:noreply, push_patch(socket, to: "/setup")}
+  end
+
+  @impl true
+  def handle_event("submit", params, socket) do
+    # Go back to the :index live action
+    IO.inspect(params)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div class="mt-9 w-full p-14">
+      <.h1>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+          Fancy Setup
+        </span>
+      </.h1>
+      <.button link_type="live_patch" label="Upload Files" to={~p"/setup/modal"} />
+      <%= if @live_action == :modal do %>
+        <.modal max_width="md" title="Modal">
+          <.p>Content</.p>
+          <.form :let={f} for={@changeset} multipart={true} phx-submit="submit">
+            <.form_field type="file_input" form={f} field={:file} />
+          </.form>
+
+          <div class="flex justify-between">
+            <.button label="close" phx-click={hide_modal()} />
+            <.button label="submit" phx-click="submit" />
+          </div>
+          <div class="flex justify-end"></div>
+        </.modal>
+      <% end %>
+      <.table class="mt-5">
+        <.tr>
+          <.th>File Name</.th>
+          <.th>Size</.th>
+          <.th>Date Uploaded</.th>
+          <.th></.th>
+        </.tr>
+
+        <.tr>
+          <.td>
+            Cat_file_103.cd
+          </.td>
+          <.td>20gb</.td>
+          <.td>02/03/04</.td>
+          <.td class="float-right flex">
+            <HeroiconsV1.Solid.folder class="w-6 h-6 text-secondary-500" />
+            <HeroiconsV1.Solid.bookmark class="w-6 h-6 text-secondary-500" />
+            <HeroiconsV1.Solid.trash class="w-6 h-6 text-secondary-500" />
+          </.td>
+        </.tr>
+
+        <.tr>
+          <.td>Cat_file_109.cd</.td>
+          <.td>20gb</.td>
+          <.td>02/03/04</.td>
+          <.td class="float-right flex">
+            <HeroiconsV1.Solid.folder class="w-6 h-6 text-secondary-500" />
+            <HeroiconsV1.Solid.bookmark class="w-6 h-6 text-secondary-500" />
+            <HeroiconsV1.Solid.trash class="w-6 h-6 text-secondary-500" />
+          </.td>
+        </.tr>
+
+        <.tr>
+          <.td>Cat_file_223.cd</.td>
+          <.td>20gb</.td>
+          <.td>02/03/04</.td>
+          <.td class="float-right flex">
+            <HeroiconsV1.Solid.folder class="w-6 h-6 text-secondary-500" />
+            <HeroiconsV1.Solid.bookmark class="w-6 h-6 text-secondary-500" />
+            <HeroiconsV1.Solid.trash class="w-6 h-6 text-secondary-500" />
+          </.td>
+        </.tr>
+
+        <.tr>
+          <.td>Cat_file_143.cd</.td>
+          <.td>20gb</.td>
+          <.td>02/03/04</.td>
+          <.td class="float-right flex">
+            <HeroiconsV1.Solid.folder class="w-6 h-6 text-secondary-500" />
+            <HeroiconsV1.Solid.bookmark class="w-6 h-6 text-secondary-500" />
+            <HeroiconsV1.Solid.trash class="w-6 h-6 text-secondary-500" />
+          </.td>
+        </.tr>
+      </.table>
+    </div>
+    """
+  end
+end

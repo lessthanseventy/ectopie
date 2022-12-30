@@ -21,6 +21,13 @@
     <.color_scheme_switch_js />
   </head>
   <body class="antialiased bg-white dark:bg-gray-900 max-w-full">
-    <%= @inner_content %>
+    <div class="flex flex-row">
+      <%= live_render(@conn, EctoprintWeb.NavigationLive, id: "side_nav") %>
+      <div class="flex flex-col">
+        <div class="mt-9 w-full p-14">
+          <%= @inner_content %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
