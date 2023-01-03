@@ -28,7 +28,7 @@ defmodule Ectoprint.Projects do
   end
 
   def list_projects(page) do
-    list_projects()
+    list_projects_query()
     |> Repo.paginate(page: page)
   end
 

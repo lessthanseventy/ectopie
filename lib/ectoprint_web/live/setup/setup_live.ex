@@ -9,7 +9,7 @@ defmodule EctoprintWeb.SetupLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    projects = Projects.list_projects()
+    %{entries: projects} = Projects.list_projects()
 
     {:ok,
      socket
@@ -29,11 +29,14 @@ defmodule EctoprintWeb.SetupLive do
       :pagination ->
         pagination_page = String.to_integer(params["pagination_page"])
 
+        %{entries: projects} = Projects.list_projects(pagination_page)
+
         {:noreply,
          socket
          |> assign(
            selected_project: %Project{},
-           pagination_page: pagination_page
+           pagination_page: pagination_page,
+           loaded_projects: projects
          )}
 
       :upload_files ->
@@ -46,7 +49,7 @@ defmodule EctoprintWeb.SetupLive do
   @impl true
   def handle_event("close_modal", _, socket) do
     # Go back to the :index live action
-    {:noreply, push_patch(socket, to: "/setup/project")}
+    {:noreply, push_patch(socket, to: "/setup")}
   end
 
   @impl true
@@ -65,19 +68,20 @@ defmodule EctoprintWeb.SetupLive do
       ) %>
     <% end %>
 
-    <div class="flex flex-row h-screen py-1">
-      <div class="flex flex-col justify-items-center mr-5">
+    <div class="flex flex-row w-screen h-screen py-1">
+      <div class="flex flex-col w-[20%] justify-items-center">
         <aside>
           <%= for project <- @loaded_projects do %>
             <%= live_component(ProjectPreviewComponent,
-              id: "project-upload-component-#{project.id}",
+              id: "project-preview-component-#{project.id}",
               project: project
             ) %>
           <% end %>
           <.pagination
             link_type="live_patch"
+            id="projects-pagination"
             class="my-5 justify-center"
-            path={~p"/setup/project/:page"}
+            path={~p"/setup/projects/:page"}
             current_page={@pagination_page}
             total_pages={10}
             sibling_count={0}
@@ -86,10 +90,10 @@ defmodule EctoprintWeb.SetupLive do
         </aside>
       </div>
       <div class="mt-5">
-        <%= live_render(@socket, ProjectFilterLive,
-          id: "project-filter"
-        ) %>
         <.button link_type="live_patch" label="Upload Files" to={~p"/setup/upload_files"} />
+      </div>
+      <div class="ml-auto w-[30%]">
+        <%= live_render(@socket, ProjectFilterLive, id: "project-filter") %>
       </div>
     </div>
     """

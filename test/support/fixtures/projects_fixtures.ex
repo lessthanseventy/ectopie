@@ -3,6 +3,7 @@ defmodule Ectoprint.ProjectsFixtures do
   This module defines test helpers for creating
   entities via the `Ectoprint.Projects` context.
   """
+  alias Faker.Superhero
 
   @doc """
   Generate a project.
@@ -11,8 +12,8 @@ defmodule Ectoprint.ProjectsFixtures do
     {:ok, project} =
       attrs
       |> Enum.into(%{
-        description: "some description",
-        file_upload: "some file_upload"
+        file_upload: "#{Superhero.name()}.stl",
+        description: Superhero.descriptor()
       })
       |> Ectoprint.Projects.create_project()
 

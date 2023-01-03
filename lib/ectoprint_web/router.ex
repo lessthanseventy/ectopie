@@ -29,8 +29,9 @@ defmodule EctoprintWeb.Router do
     end
 
     scope "/setup" do
-      live("/project", SetupLive, :setup)
-      live("/project/:pagination_page", SetupLive, :pagination)
+      get("/", PageController, :redirect_to_projects)
+      live("/projects", SetupLive, :setup)
+      live("/projects/:pagination_page", SetupLive, :pagination)
       live("/upload_files", SetupLive, :upload_files)
     end
 

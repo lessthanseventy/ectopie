@@ -5,6 +5,10 @@ defmodule Ectoprint.Projects.Project do
   schema "projects" do
     field :description, :string
     field :file_upload, :string
+    field :last_printed, :utc_datetime
+    field :filament_type, :string
+    field :printer_head_speed, :string
+    field :notes, :string
 
     timestamps()
   end
@@ -12,7 +16,12 @@ defmodule Ectoprint.Projects.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:file_upload, :description])
+    |> cast(attrs, [
+      :file_upload,
+       :description,
+      :printer_head_speed,
+      :notes
+    ])
     |> validate_required([:file_upload, :description])
   end
 end

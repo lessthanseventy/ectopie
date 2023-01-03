@@ -11,7 +11,7 @@ defmodule EctoprintWeb.SetupLive.ProjectPreviewComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div id={"project-preview-component-#{@project.id}"}>
       <%= @project.description %>
       <%= @project.file_upload %>
     </div>
