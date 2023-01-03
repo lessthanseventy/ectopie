@@ -22,7 +22,9 @@
   </head>
   <body class="antialiased bg-white dark:bg-gray-900 max-w-full">
     <div class="flex flex-row">
-      <%= live_render(@conn, EctoprintWeb.NavigationLive, id: "side_nav") %>
+      <%= unless String.contains?(Phoenix.Controller.current_path(@conn), "/playground") do %>
+        <%= live_render(@conn, EctoprintWeb.NavigationLive, id: "side_nav") %>
+      <% end %>
       <div class="flex flex-col">
         <div class="mt-9 w-full p-14">
           <%= @inner_content %>

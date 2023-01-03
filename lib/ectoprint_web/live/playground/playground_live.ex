@@ -15,7 +15,7 @@ defmodule EctoprintWeb.PlaygroundLive do
   @impl true
   def handle_params(params, _uri, socket) do
     case socket.assigns.live_action do
-      :live ->
+      :playground_live ->
         {:noreply, assign(socket, modal: false, slide_over: false)}
 
       :modal ->
