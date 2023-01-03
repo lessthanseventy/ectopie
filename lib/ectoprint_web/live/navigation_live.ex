@@ -10,8 +10,7 @@ defmodule EctoprintWeb.NavigationLive do
   def render(assigns) do
     ~H"""
     <div class="flex flex-col h-screen px-2 py-8 mx-4 border-r">
-      <h2 class="text-3xl font-semibold text-center text-blue-800">Logo</h2>
-
+      <.avatar class="self-center my-3" size="xl" src="/assets/ectoprint.jpeg" />
       <div class="flex flex-col justify-between mt-6">
         <aside>
           <ul>
@@ -29,7 +28,7 @@ defmodule EctoprintWeb.NavigationLive do
             <li>
               <.a
                 link_type="live_redirect"
-                to="/setup"
+                to="/setup/project"
                 class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200"
               >
                 <Heroicons.squares_plus class="w-6 h-6 rotate-90 text-secondary-500" />

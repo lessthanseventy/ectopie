@@ -1,0 +1,32 @@
+<div>
+  <.modal max_width="md" title="Modal">
+    <.form
+      :let={f}
+      class="mb-5"
+      for={@changeset}
+      id="file-upload-form"
+      multipart={true}
+      phx_target={@myself}
+      phx_change="validate"
+      phx_submit="save"
+    >
+      <div class="flex flex-row justify-between" phx-drop-target={@uploads.file.ref}>
+        <.live_file_input class="hidden" upload={@uploads.file} multiple />
+        <label
+          class="border-transparent text-white bg-primary-600 active:bg-primary-700 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 focus:shadow-outline-primary text-sm leading-5 px-4 py-2 font-medium rounded-md inline-flex items-center justify-center border focus:outline-none transition duration-150 ease-in-out"
+          for={@uploads.file.ref}
+        >
+          Select files
+        </label>
+        <.button :if={@uploads.file.entries != []} type="submit" phx_disable_with="Saving...">
+          Save
+        </.button>
+      </div>
+    </.form>
+    <div class="flex flex-col">
+      <div :for={file <- @uploads.file.entries} class="mx-3">
+        <%= file.client_name %>
+      </div>
+    </div>
+  </.modal>
+</div>
