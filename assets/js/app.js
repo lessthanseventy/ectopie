@@ -54,6 +54,16 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
+window.addEventListener(`setSessionItem`, ({detail: {key, value}}) => {
+  sessionStorage.setItem(key, value)
+  liveSocket.pushEvent("sessionSet", {value: value})
+})
+
+window.addEventListener(`getSessionItem`, ({detail: {key}}) => {
+  console.log(key, "GETTER")
+  return sessionStorage.getItem(key)
+})
+
 /*
   The following code allows hooks to be run in dead views.
   To allow a hook to run in a dead view, add the following to the hook:

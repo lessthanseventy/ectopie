@@ -25,7 +25,7 @@ defmodule EctoprintWeb.SetupLive.FileUploadComponent do
 
     # project = save_project(Map.put(project_params, :image_upload, file_path))
 
-    {:noreply, socket |> push_patch(to: "/setup")}
+    {:noreply, socket |> push_patch(to: "/setup/projects")}
   end
 
   @impl true

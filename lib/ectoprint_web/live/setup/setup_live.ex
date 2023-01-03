@@ -89,9 +89,6 @@ defmodule EctoprintWeb.SetupLive do
           />
         </aside>
       </div>
-      <div class="mt-5">
-        <.button link_type="live_patch" label="Upload Files" to={~p"/setup/upload_files"} />
-      </div>
       <div class="ml-auto w-[30%]">
         <%= live_render(@socket, ProjectFilterLive, id: "project-filter") %>
       </div>

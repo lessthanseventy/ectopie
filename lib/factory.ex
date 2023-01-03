@@ -21,7 +21,10 @@ defmodule Ectoprint.Factory do
   def project_factory do
     %Project{
       file_upload: "#{Superhero.name()}..stl",
-      description: Superhero.descriptor()
+      description: Superhero.descriptor(),
+      last_printed: Faker.DateTime.backward(365 * 5),
+      filament_type: Faker.Cat.breed(),
+      printer_head_speed: "#{Faker.random_between(1, 10)}"
     }
     |> insert()
   end
