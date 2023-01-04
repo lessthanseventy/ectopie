@@ -1,5 +1,11 @@
 defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
   use EctoprintWeb, :live_view
+  alias Ecto.Changeset
+
+  @defaults %{
+    "open" => "before",
+    "filters" => %{}
+  }
 
   @impl true
   def mount(_params, _session, socket) do
@@ -14,10 +20,12 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
         socket
         # request the browser to restore any state it has for this key.
         |> push_event("restore", %{key: "open", event: "restoreSettings"})
+        |> push_event("restore", %{key: "filters", event: "restoreSettings"})
       else
         socket
-        |> assign(:open, nil)
       end
+      |> assign(:open, nil)
+      |> assign(:filters, %{})
 
     {:ok, new_socket}
   end
@@ -25,17 +33,19 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
   @impl true
   # Pushed from JS hook. Server requests it to send up any
   # stored settings for the key.
-  def handle_event("restoreSettings", token_data, socket) when is_binary(token_data) do
+  def handle_event("restoreSettings", %{"data" => token_data, "key" => key}, socket) when is_binary(token_data) do
     socket =
       case restore_from_token(token_data) do
         {:ok, nil} ->
           # do nothing with the previous state
           socket
-          |> assign(:open, "before")
+          |> assign(:open, socket.assigns.open)
+          |> assign(:filters, socket.assigns.filters)
 
         {:ok, restored} ->
           socket
-          |> assign(:open, restored)
+          |> assign(String.to_existing_atom(key), restored)
+
 
         {:error, reason} ->
           # We don't continue checking. Display error.
@@ -48,12 +58,12 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
     {:noreply, socket}
   end
 
-  def handle_event("restoreSettings", _token_data, socket) do
+  def handle_event("restoreSettings", %{"data" => _token_data, "key" => key}, socket) do
     # No expected token data received from the client
-    {:noreply, socket}
+    {:noreply, socket |> assign(String.to_existing_atom(key), @defaults[key])}
   end
 
-  def handle_event("tab_clicked", %{"tab" => tab}, socket) do
+  def handle_event("tab_clicked", %{"value" => tab}, socket) do
     # This represents the special state you want to store. It may come from the
     # socket.assigns. It's specific to your LiveView.
     socket =
@@ -63,8 +73,20 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
         key: "open",
         data: serialize_to_token(tab)
       })
-      |> IO.inspect()
 
+    {:noreply, socket}
+  end
+
+  def handle_event("search", %{"filters" => filters}, socket) do
+    # save search in local storage
+    socket = socket
+    |> assign(:filters, filters)
+    |> push_event("store", %{
+      key: "filters",
+      data: serialize_to_token(filters)
+    })
+
+    # do the search
     {:noreply, socket}
   end
 
@@ -96,57 +118,54 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
   def render(assigns) do
     ~H"""
     <div>
-      <div>
-        Last Printed
-        <.container
-          id="definitelyreallymain"
-          phx-hook="LocalStateStore"
-          id="date-filter-container"
-          class="mt-10"
-        >
-          <.tabs class="flex-col sm:flex-row">
-            <.tab
-              class="filter-date-tab"
-              id="filter-date-tab-before"
-              link_type="button"
-              phx-click="tab_clicked"
-              phx-value-tab="before"
-              label="Before"
-              is_active={is_active(assigns[:open], "before")}
-            />
-            <h1 id="item">BEFORE</h1>
-            <.tab
-              class="filter-date-tab"
-              id="filter-date-tab-between"
-              link_type="button"
-              phx-click="tab_clicked"
-              phx-value-tab="between"
-              label="Between"
-              is_active={is_active(assigns[:open], "between")}
-            />
-            <h1>BETWEEN</h1>
-            <.tab
-              class="filter-date-tab"
-              id="filter-date-tab-after"
-              link_type="button"
-              phx-click="tab_clicked"
-              phx-value-tab="after"
-              label="After"
-              is_active={is_active(assigns[:open], "after")}
-            />
-            <h1>AFTER</h1>
-          </.tabs>
-        </.container>
-      </div>
-      <div>
-        Printer Head Speed
-      </div>
-      <div>
-        Filament Type
-      </div>
+      <.simple_form :let={f} for={change_filters(%{}, @filters)} as={:filters} phx-change="search">
+        <div>
+          Last Printed
+          <.container
+            id="definitelyreallymain"
+            phx-hook="LocalStateStore"
+            id="date-filter-container"
+            class="mt-10"
+          >
+            <.form_label form={f} field={:open} for="filters_open_before" label="Before" />
+            <.radio form={f} field={:open} value="before" phx-click="tab_clicked" checked={is_active(@open, "before")} />
+            <.form_label form={f} field={:open} for="filters_open_between" label="Between" />
+            <.radio form={f} field={:open} value="between" phx-click="tab_clicked" checked={is_active(@open, "between")} />
+            <.form_label form={f} field={:open} for="filters_open_after" label="After" />
+            <.radio form={f} field={:open} value="after" phx-click="tab_clicked" checked={is_active(@open, "after")} />
+          </.container>
+          <%= if @open in ["after", "between"] do %>
+            <.datetime_local_input form={f} field={:start_time} />
+          <% end %>
+          <%= if @open == "between" do %>
+            <span>AND</span>
+          <% end %>
+          <%= if @open in ["before", "between"] do %>
+            <.datetime_local_input form={f} field={:end_time} />
+          <% end %>
+        </div>
+        <div>
+          Printer Head Speed
+        </div>
+        <div>
+          Filament Type
+        </div>
+      </.simple_form>
     </div>
     """
   end
 
   defp is_active(current, test), do: current == test
+
+  def change_filters(%{} = filters, attrs \\ %{}) do
+    types = %{
+      start_time: :utc_datetime,
+      end_time: :utc_datetime,
+      filament_type: :string,
+      printer_head_speed: :string,
+    }
+
+    {filters, types}
+    |> Changeset.cast(attrs, Map.keys(types))
+  end
 end

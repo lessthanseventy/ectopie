@@ -68,7 +68,7 @@ defmodule EctoprintWeb.SetupLive do
       ) %>
     <% end %>
 
-    <div class="flex flex-row w-screen h-screen py-1">
+    <div class="flex flex-row h-screen py-1">
       <div class="flex flex-col w-[20%] justify-items-center">
         <aside>
           <%= for project <- @loaded_projects do %>

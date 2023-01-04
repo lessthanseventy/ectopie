@@ -13,7 +13,7 @@ const LocalStateStore = {
 
   restore(obj) {
     var data = sessionStorage.getItem(obj.key)
-    this.pushEvent(obj.event, data)
+    this.pushEvent(obj.event, {data, key: obj.key})
   },
 
   clear(obj) {
