@@ -1,0 +1,53 @@
+<div>
+  <.simple_form :let={f} for={change_filters(%{}, @filters)} as={:filters} phx-change="search">
+    <div>
+      Last Printed
+      <.container
+        id="definitelyreallymain"
+        phx-hook="LocalStateStore"
+        id="date-filter-container"
+        class="mt-10"
+      >
+        <.form_label form={f} field={:open} for="filters_open_before" label="Before" />
+        <.radio
+          form={f}
+          field={:open}
+          value="before"
+          phx-click="tab_clicked"
+          checked={is_active(@open, "before")}
+        />
+        <.form_label form={f} field={:open} for="filters_open_between" label="Between" />
+        <.radio
+          form={f}
+          field={:open}
+          value="between"
+          phx-click="tab_clicked"
+          checked={is_active(@open, "between")}
+        />
+        <.form_label form={f} field={:open} for="filters_open_after" label="After" />
+        <.radio
+          form={f}
+          field={:open}
+          value="after"
+          phx-click="tab_clicked"
+          checked={is_active(@open, "after")}
+        />
+      </.container>
+      <%= if @open in ["after", "between"] do %>
+        <.datetime_local_input form={f} field={:start_time} />
+      <% end %>
+      <%= if @open == "between" do %>
+        <span>AND</span>
+      <% end %>
+      <%= if @open in ["before", "between"] do %>
+        <.datetime_local_input form={f} field={:end_time} />
+      <% end %>
+    </div>
+    <div>
+      Printer Head Speed
+    </div>
+    <div>
+      Filament Type
+    </div>
+  </.simple_form>
+</div>
