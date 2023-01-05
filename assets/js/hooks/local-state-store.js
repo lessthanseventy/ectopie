@@ -8,17 +8,17 @@ const LocalStateStore = {
   },
 
   store(obj) {
-    sessionStorage.setItem(obj.key, obj.data)
+    localStorage.setItem(obj.key, obj.data)
   },
 
   restore(obj) {
-    var data = sessionStorage.getItem(obj.key)
-    this.pushEvent(obj.event, {data, key: obj.key})
+    var data = localStorage.getItem(obj.key)
+    this.pushEvent(obj.event, { data, key: obj.key })
   },
 
   clear(obj) {
-    sessionStorage.removeItem(obj.key)
+    localStorage.removeItem(obj.key)
   },
 }
 
-export default LocalStateStore;
+export default LocalStateStore

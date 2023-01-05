@@ -33,7 +33,8 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
   @impl true
   # Pushed from JS hook. Server requests it to send up any
   # stored settings for the key.
-  def handle_event("restoreSettings", %{"data" => token_data, "key" => key}, socket) when is_binary(token_data) do
+  def handle_event("restoreSettings", %{"data" => token_data, "key" => key}, socket)
+      when is_binary(token_data) do
     socket =
       case restore_from_token(token_data) do
         {:ok, nil} ->
@@ -45,7 +46,6 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
         {:ok, restored} ->
           socket
           |> assign(String.to_existing_atom(key), restored)
-
 
         {:error, reason} ->
           # We don't continue checking. Display error.
@@ -79,12 +79,13 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
 
   def handle_event("search", %{"filters" => filters}, socket) do
     # save search in local storage
-    socket = socket
-    |> assign(:filters, filters)
-    |> push_event("store", %{
-      key: "filters",
-      data: serialize_to_token(filters)
-    })
+    socket =
+      socket
+      |> assign(:filters, filters)
+      |> push_event("store", %{
+        key: "filters",
+        data: serialize_to_token(filters)
+      })
 
     # do the search
     {:noreply, socket}
@@ -128,11 +129,29 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
             class="mt-10"
           >
             <.form_label form={f} field={:open} for="filters_open_before" label="Before" />
-            <.radio form={f} field={:open} value="before" phx-click="tab_clicked" checked={is_active(@open, "before")} />
+            <.radio
+              form={f}
+              field={:open}
+              value="before"
+              phx-click="tab_clicked"
+              checked={is_active(@open, "before")}
+            />
             <.form_label form={f} field={:open} for="filters_open_between" label="Between" />
-            <.radio form={f} field={:open} value="between" phx-click="tab_clicked" checked={is_active(@open, "between")} />
+            <.radio
+              form={f}
+              field={:open}
+              value="between"
+              phx-click="tab_clicked"
+              checked={is_active(@open, "between")}
+            />
             <.form_label form={f} field={:open} for="filters_open_after" label="After" />
-            <.radio form={f} field={:open} value="after" phx-click="tab_clicked" checked={is_active(@open, "after")} />
+            <.radio
+              form={f}
+              field={:open}
+              value="after"
+              phx-click="tab_clicked"
+              checked={is_active(@open, "after")}
+            />
           </.container>
           <%= if @open in ["after", "between"] do %>
             <.datetime_local_input form={f} field={:start_time} />
@@ -162,7 +181,7 @@ defmodule EctoprintWeb.SetupLive.ProjectFilterLive do
       start_time: :utc_datetime,
       end_time: :utc_datetime,
       filament_type: :string,
-      printer_head_speed: :string,
+      printer_head_speed: :string
     }
 
     {filters, types}
