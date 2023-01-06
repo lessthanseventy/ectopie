@@ -9,7 +9,14 @@ defmodule Ectoprint.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      releases: [
+        ectoprint: [
+          steps: [:assemble, &Bakeware.assemble/1],
+          strip_beams: Mix.env() == :prod,
+          overwrite: true
+        ]
+      ]
     ]
   end
 
@@ -28,8 +35,10 @@ defmodule Ectoprint.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bakeware, git: "https://github.com/bake-bake-bake/bakeware", runtime: false},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
+      {:ecto_sqlite3, "~> 0.9.1"},
       {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
       {:ex_machina, "~> 2.7.0"},
       {:faker, "~> 0.17.0"},
@@ -46,7 +55,6 @@ defmodule Ectoprint.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.3"},
       {:plug_cowboy, "~> 2.5"},
-      {:postgrex, ">= 0.0.0"},
       {:scrivener_ecto, "~> 2.0"},
       {:swoosh, "~> 1.3"},
       {:tailwind, "~> 0.1.8", runtime: Mix.env() == :dev},
@@ -72,6 +80,10 @@ defmodule Ectoprint.MixProject do
         "tailwind default --minify",
         "esbuild default --minify",
         "phx.digest"
+      ],
+      "tauri.release": [
+        "assets.deploy",
+        "release"
       ]
     ]
   end

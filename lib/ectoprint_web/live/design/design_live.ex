@@ -18,7 +18,7 @@ defmodule EctoprintWeb.DesignLive do
          assign(
            socket,
            cards: cards,
-           pagination_page: "1"
+           pagination_page: 1
          )}
 
       :pagination ->

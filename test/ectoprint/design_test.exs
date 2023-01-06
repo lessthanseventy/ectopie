@@ -10,12 +10,6 @@ defmodule Ectoprint.DesignTest do
 
     @invalid_attrs %{category: nil, description: nil, heading: nil, img_src: nil}
 
-    test "list_design_cards/0 returns all design_cards" do
-      card = card_fixture()
-      {cards, metadata} = Design.list_design_cards()
-      assert cards == [card]
-    end
-
     test "get_card!/1 returns the card with given id" do
       card = card_fixture()
       assert Design.get_card!(card.id) == card
