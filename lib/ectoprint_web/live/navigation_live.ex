@@ -68,6 +68,17 @@ defmodule EctoprintWeb.NavigationLive do
                 <span class="mx-4 font-medium">Review</span>
               </.a>
             </li>
+
+            <li>
+              <.a
+                link_type="live_redirect"
+                to="/playground/live"
+                class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200"
+              >
+                <Heroicons.cake class="w-6 h-6 rotate-90 text-secondary-500" />
+                <span class="mx-4 font-medium">Playground</span>
+              </.a>
+            </li>
           </ul>
         </aside>
       </div>
